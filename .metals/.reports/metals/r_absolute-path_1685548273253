@@ -1,0 +1,4 @@
+Uri: git:/d%3A/github/depaul/Theater-Management/Showtime.java?%7B%22path%22%3A%22d%3A%5C%5Cgithub%5C%5Cdepaul%5C%5CTheater-Management%5C%5CShowtime.java%22%2C%22ref%22%3A%22%22%7D
+
+Error message: Provider "git" not installed
+Error: java.nio.file.FileSystemNotFoundException: Provider "git" not installed
