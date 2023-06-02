@@ -41,6 +41,11 @@ public class demo {
 
     static UUID[] idArray;
 
+    static Customer demoCustomer;
+
+    static int cCard;
+    static int cCvv2;
+
     public static void main(String[] args) throws IOException {
 
         if(onStart) {
@@ -147,6 +152,24 @@ public class demo {
             }
         }
 
+        if(accountType.equals("C")) {
+            demoCustomer = new Customer(username, password, email);
+
+            System.out.println("Please enter your card number.");
+            try {
+                demoCustomer.cardNumber = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                System.out.println("Please use characters 0 - 9!");
+            }
+    
+            System.out.println("Please enter your 3 digit card security code.");
+            try {
+                demoCustomer.cvv2 = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                System.out.println("Please use characters 0 - 9!");
+            }
+        }
+
         //reader.close();
         
         System.out.println("\nMaking Account With Following Details:\n");
@@ -156,7 +179,7 @@ public class demo {
         //    System.out.println(username);
         //    System.out.println(email);
         //    System.out.println(password);
-            customerService.customers.add(new Customer(username, password, email));
+            customerService.customers.add(demoCustomer);
             System.out.println(customerService.customers.toString());
         } else if (accountType.equals("A")) {
         //    System.out.println("Administrative Account");
@@ -233,6 +256,7 @@ public class demo {
                     System.out.println("password found! Logging in...");
                     loginFlag = false;
                     login = true;
+                    demoCustomer = customer;
                     break;
                 } else {
                     System.out.println("Wrong Password\n");
@@ -295,7 +319,31 @@ public class demo {
             System.out.println("Please enter a number.");
         }
         movieCtr = 0;
-        System.out.println(movieService.movieMap.get(idArray[mvSelect]));
+
+        System.out.println(movieService.movieMap.get(idArray[mvSelect]) + " selected.");
+
+        System.out.println("Please enter your card number below:");
+
+        try {
+            cCard = Integer.parseInt(reader.readLine());
+        } catch (Exception e) {
+            System.out.println("Please enter a number.");
+        }
+
+        if(cCard == demoCustomer.cardNumber) {
+            System.out.println("Please enter your 3 digit card security code.");
+            try {
+                cCvv2 = Integer.parseInt(reader.readLine());
+            } catch (IOException e) {
+                System.out.println("Please use characters 0 - 9!");
+            }
+        }
+
+        if(cCard == demoCustomer.cardNumber && cCvv2 == demoCustomer.cvv2) {
+            System.out.println("Card Matches, making payment.");
+        } else {
+            System.out.println("payment declined. Cards do not match.");
+        }
     }
 
     public static void makeMovies() {

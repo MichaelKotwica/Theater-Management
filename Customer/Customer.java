@@ -8,6 +8,8 @@ public class Customer {
     public String password;
     public String email;
     private UUID id;
+    public int cardNumber;
+    public int cvv2;
 
 
     public Customer(String userName, String password, String email) {
