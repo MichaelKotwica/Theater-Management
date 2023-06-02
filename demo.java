@@ -29,8 +29,12 @@ public class demo {
 
     public static CustomerService customerService = new CustomerService();
     public static AdminService adminService = new AdminService();
+    public static MovieService movieService = new MovieService();
 
     public static void main(String[] args) throws IOException {
+
+        makeMovies();
+
         System.out.println("Welcome to the theater mangement software demo!\n To get started, type MA to make accounts, LI to log in to an existing account, and PT to select a movie and purchase a movie ticket.");
 
         while(!demoFlag) {
@@ -51,7 +55,7 @@ public class demo {
                     //break;
                 case "PT":
                     //demoFlag = true;
-                    //purchase Tickets
+                    makePayment();
                     //break;
                 case "Q":
                     demoFlag = true;
@@ -259,4 +263,13 @@ public class demo {
         }
     }
 
+    public static void makePayment() {
+        
+    }
+
+    public static void makeMovies() {
+        movieService.createMovie("Star Wars: Episode II - Attack of the Clones", "A clone army is formed, but will it be enough to save the Jedi Order?", 150);
+        movieService.createMovie("The Super Mario Bros. Movie", "Come join a plumber and his brother to save the world!", 130);
+        movieService.createMovie("John Wick: Chapter 4", "A thriller with lots of action!", 310);
+    }
 }
