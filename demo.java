@@ -1,6 +1,9 @@
 import java.io.*;
+import java.util.UUID;
 
+import Admin.Admin;
 import Admin.AdminService;
+import Customer.Customer;
 import Customer.CustomerService;
 
 public class demo {
@@ -21,8 +24,8 @@ public class demo {
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public CustomerService customerService;
-    public AdminService adminService;
+    public static CustomerService customerService = new CustomerService();
+    public static AdminService adminService = new AdminService();
 
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the theater mangement software demo!\n To get started, type MA to make accounts, LI to log in to an existing account, and PT to select a movie and purchase a movie ticket.");
@@ -36,19 +39,22 @@ public class demo {
 
             switch (df.toUpperCase()) {
                 case "MA":
-                demoFlag = true;
-                makeAccount();
-                break;
+                    //demoFlag = true;
+                    makeAccount();
+                    //break;
                 case "LI":
-                demoFlag = true;
-                //login();
-                break;
+                    //demoFlag = true;
+                    //login();
+                    //break;
                 case "PT":
-                demoFlag = true;
-                //purchase Tickets
-                break;
+                    //demoFlag = true;
+                    //purchase Tickets
+                    //break;
+                case "Q":
+                    demoFlag = true;
+                    break;
                 default:
-                System.out.println("Invalid Input. Please type in MA to make accounts, LI to log in to an account, and PT to purchase tickets.");
+                    System.out.println("Invalid Input. Please type in MA to make accounts, LI to log in to an account, and PT to purchase tickets.");
             }
 
         }
@@ -69,6 +75,9 @@ public class demo {
 
             if(accountType.equals("A") || accountType.equals("C")) {
                 acctFlag = true;
+            } else if (accountType.equals("Q")) {
+                acctFlag = true;
+                break;
             } else {
                 System.out.println("Invalid Input. Please type in C for customer or A for administator");
             }
@@ -113,16 +122,25 @@ public class demo {
             }
         }
 
-        reader.close();
+        //reader.close();
         
         System.out.println("\nMaking Account With Following Details:\n");
         
-        if(accountType.equals("A")) {
-            System.out.println("Administrative Acocount");
-        } else System.out.println("Customer Account");
-
-        System.out.println(username);
-        System.out.println(email);
-        System.out.println(password);
+        if(accountType.equals("C")) {
+        //    System.out.println("Customer Acocount");
+        //    System.out.println(username);
+        //    System.out.println(email);
+        //    System.out.println(password);
+            customerService.customers.add(new Customer(username, email, password));
+            System.out.println(customerService.customers.toString());
+        } else if (accountType.equals("A")) {
+        //    System.out.println("Administrative Account");
+        //    System.out.println(username);
+        //    System.out.println(email);
+        //    System.out.println(password);
+            adminService.admins.add(new Admin(username, email, password));
+            System.out.println(adminService.admins.toString());
+        }
+        main(null);
     }
 }

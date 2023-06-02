@@ -10,7 +10,10 @@ public class Customer {
     private UUID id;
 
 
-    public Customer() {
+    public Customer(String userName, String password, String email) {
+        this.userName = userName;
+        this.pasword = password;
+        this.email = email;
         id = UUID.randomUUID();
         
     }

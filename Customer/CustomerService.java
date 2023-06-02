@@ -1,13 +1,18 @@
 package Customer;
 
+
 //import java.util.List;
-//import java.util.UUID;
+import java.util.UUID;
+import java.util.*;
     
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
     
   
 public class CustomerService {
+
+    public List<Customer> customers = new ArrayList<Customer>();
+
 /*        
         public Customer GetCustomerById(UUID id) throws CustomerException {
             Customer customer = null;
