@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Map;
 import java.util.UUID;
 
 import Admin.Admin;
@@ -22,8 +23,12 @@ public class demo {
     private static String confirmPassword;
     private static boolean passwordMatch = false;
 
+    private static boolean login = false;
+
     private static boolean loginFlag = false;
     private static String loginType;
+
+    private static boolean onStart = true;
 
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -31,9 +36,17 @@ public class demo {
     public static AdminService adminService = new AdminService();
     public static MovieService movieService = new MovieService();
 
+    private static int movieCtr = 0;
+    private static int mvSelect;
+
+    static UUID[] idArray;
+
     public static void main(String[] args) throws IOException {
 
-        makeMovies();
+        if(onStart) {
+            makeMovies();
+            onStart = false;
+        }
 
         System.out.println("Welcome to the theater mangement software demo!\n To get started, type MA to make accounts, LI to log in to an existing account, and PT to select a movie and purchase a movie ticket.");
 
@@ -55,7 +68,12 @@ public class demo {
                     //break;
                 case "PT":
                     //demoFlag = true;
-                    makePayment();
+                    if(login) {
+                        makePayment();
+                    } else {
+                        System.out.println("Must be logged in as a customer to select movie, auditorium, and make payments.");
+                    }
+                    
                     //break;
                 case "Q":
                     demoFlag = true;
@@ -214,6 +232,7 @@ public class demo {
                 if(password.equals(customer.password)) {
                     System.out.println("password found! Logging in...");
                     loginFlag = false;
+                    login = true;
                     break;
                 } else {
                     System.out.println("Wrong Password\n");
@@ -265,11 +284,28 @@ public class demo {
 
     public static void makePayment() {
         //TODO
+        System.out.println("There are " + movieService.getAllMovies().size() + " availible.");
+        for(Movie mv : movieService.getAllMovies()) {
+            System.out.println("Select " + movieCtr + " for " + mv.toString());
+            movieCtr++;
+        }
+        try {
+            mvSelect = Integer.parseInt(reader.readLine());
+        } catch (Exception e) {
+            System.out.println("Please enter a number.");
+        }
+        movieCtr = 0;
+        System.out.println(movieService.movieMap.get(idArray[mvSelect]));
     }
 
     public static void makeMovies() {
-        movieService.createMovie("Star Wars: Episode II - Attack of the Clones", "A clone army is formed, but will it be enough to save the Jedi Order?", 150);
-        movieService.createMovie("The Super Mario Bros. Movie", "Come join a plumber and his brother to save the world!", 130);
-        movieService.createMovie("John Wick: Chapter 4", "A thriller with lots of action!", 310);
+        Movie mv1 = movieService.createMovie("Star Wars: Episode II - Attack of the Clones", "A clone army is formed, but will it be enough to save the Jedi Order?", 150);
+        Movie mv2 = movieService.createMovie("The Super Mario Bros. Movie", "Come join a plumber and his brother to save the world!", 130);
+        Movie mv3 = movieService.createMovie("John Wick: Chapter 4", "A thriller with lots of action!", 310);
+        movieService.movieMap.put(UUID.randomUUID(), mv1);
+        movieService.movieMap.put(UUID.randomUUID(), mv2);
+        movieService.movieMap.put(UUID.randomUUID(), mv3);
+        movieService.idSet = movieService.movieMap.keySet();
+        idArray = movieService.idSet.toArray(new UUID[movieService.idSet.size()]);
     }
 }

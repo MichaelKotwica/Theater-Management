@@ -11,4 +11,10 @@ public class Movie {
         this.description = description;
         durationInMinutes = length;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
 }

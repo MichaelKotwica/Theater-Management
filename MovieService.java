@@ -2,7 +2,9 @@ import java.util.*;
 
 public class MovieService  {
 
-    public Map<UUID, Movie> movieMap = new HashMap<UUID,Movie>();
+    public Map<UUID, Movie> movieMap = new LinkedHashMap<UUID,Movie>();
+
+    public Set<UUID> idSet;
     
     public Movie createMovie(String title, String description, int length) {
         return new Movie(title, description, length);

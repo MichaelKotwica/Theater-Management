@@ -9,4 +9,10 @@ public class Showtime {
 
     private LocalDateTime time;
 
+    private Movie movie;
+
+    private Showtime (Movie movie) {
+        this.movie = movie;
+    }
+
 }
