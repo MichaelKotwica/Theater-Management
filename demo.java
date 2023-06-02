@@ -22,6 +22,9 @@ public class demo {
     private static String confirmPassword;
     private static boolean passwordMatch = false;
 
+    private static boolean loginFlag = false;
+    private static String loginType;
+
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static CustomerService customerService = new CustomerService();
@@ -44,7 +47,7 @@ public class demo {
                     //break;
                 case "LI":
                     //demoFlag = true;
-                    //login();
+                    login();
                     //break;
                 case "PT":
                     //demoFlag = true;
@@ -131,16 +134,86 @@ public class demo {
         //    System.out.println(username);
         //    System.out.println(email);
         //    System.out.println(password);
-            customerService.customers.add(new Customer(username, email, password));
+            customerService.customers.add(new Customer(username, password, email));
             System.out.println(customerService.customers.toString());
         } else if (accountType.equals("A")) {
         //    System.out.println("Administrative Account");
         //    System.out.println(username);
         //    System.out.println(email);
         //    System.out.println(password);
-            adminService.admins.add(new Admin(username, email, password));
+            adminService.admins.add(new Admin(username, password, email));
             System.out.println(adminService.admins.toString());
         }
         main(null);
+    }
+
+    public static void login() {
+
+        System.out.println("Please indicate the login account type:\nA for Admin Login\nC for Customer Login");
+
+        while (!loginFlag) {
+            try {
+                loginType = reader.readLine().toUpperCase();
+            } catch (IOException e) {
+                System.out.println("Invalid Input. Please type in C for customer or A for administator login");
+            }
+
+            if(loginType.equals("A") || loginType.equals("C")) {
+                loginFlag = true;
+            } else if (loginType.equals("Q")) {
+                loginFlag = true;
+                break;
+            } else {
+                System.out.println("Invalid Input. Please type in C for customer or A for administator login");
+            }
+            
+        }
+        loginFlag = false;
+
+        if (loginType.equals("C")) {
+            customerLogin();
+        }
+
+    }
+
+    public static void customerLogin() {
+        System.out.println("Please enter your email.");
+        try {
+            email = reader.readLine();
+        } catch (IOException e) {
+            System.out.println("Invalid email! Please use characters a - z and 0 - 9!");
+        }
+
+        for(Customer customer : customerService.customers) {
+            
+            if(email.equals(customer.email)) {
+                System.out.println(email + " found\n");
+                loginFlag = true;
+            } else {
+                System.out.println(email + " not found\n");
+            }
+            
+            System.out.println(customer.email);
+        }
+
+        if(loginFlag) {
+            System.out.println("Please enter your password.");
+            try {
+                password = reader.readLine();
+            } catch (IOException e) {
+                System.out.println("Invalid password! Please use characters a - z and 0 - 9!");
+            }
+
+            for(Customer customer : customerService.customers) {
+                if(password.equals(customer.password)) {
+                    System.out.println("password found! Logging in...");
+                    loginFlag = false;
+                    break;
+                } else {
+                    System.out.println("Wrong Password\n");
+                }
+            }
+
+        }
     }
 }
