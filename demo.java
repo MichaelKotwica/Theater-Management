@@ -147,7 +147,7 @@ public class demo {
         main(null);
     }
 
-    public static void login() {
+    public static void login() throws IOException {
 
         System.out.println("Please indicate the login account type:\nA for Admin Login\nC for Customer Login");
 
@@ -172,8 +172,10 @@ public class demo {
 
         if (loginType.equals("C")) {
             customerLogin();
+        } else if (loginType.equals("A")) {
+            adminLogin();
         }
-
+        main(null);
     }
 
     public static void customerLogin() {
@@ -193,7 +195,7 @@ public class demo {
                 System.out.println(email + " not found\n");
             }
             
-            System.out.println(customer.email);
+            //System.out.println(customer.email);
         }
 
         if(loginFlag) {
@@ -213,7 +215,48 @@ public class demo {
                     System.out.println("Wrong Password\n");
                 }
             }
+        }
+    }
+
+    public static void adminLogin() {
+        System.out.println("Please enter your email.");
+        try {
+            email = reader.readLine();
+        } catch (IOException e) {
+            System.out.println("Invalid email! Please use characters a - z and 0 - 9!");
+        }
+
+        for(Admin admin : adminService.admins) {
+            
+            if(email.equals(admin.email)) {
+                System.out.println(email + " found\n");
+                loginFlag = true;
+            } else {
+                System.out.println(email + " not found\n");
+            }
+            
+            //System.out.println(admin.email);
+        }
+
+        if(loginFlag) {
+            System.out.println("Please enter your password.");
+            try {
+                password = reader.readLine();
+            } catch (IOException e) {
+                System.out.println("Invalid password! Please use characters a - z and 0 - 9!");
+            }
+
+            for(Admin admin : adminService.admins) {
+                if(password.equals(admin.password)) {
+                    System.out.println("password found! Logging in...");
+                    loginFlag = false;
+                    break;
+                } else {
+                    System.out.println("Wrong Password\n");
+                }
+            }
 
         }
     }
+
 }
