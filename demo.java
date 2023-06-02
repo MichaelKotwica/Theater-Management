@@ -5,6 +5,9 @@ import Customer.CustomerService;
 
 public class demo {
 
+    public static boolean demoFlag = false;
+    public static String df;
+
     private static String accountType;
     private static boolean acctFlag = false;
 
@@ -24,7 +27,33 @@ public class demo {
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the theater mangement software demo!\n To get started, type MA to make accounts, LI to log in to an existing account, and PT to select a movie and purchase a movie ticket.");
 
-        makeAccount();
+        while(!demoFlag) {
+            try {
+                df = reader.readLine().toUpperCase();
+            } catch (IOException e) {
+                System.out.println("Invalid Input. Please type in MA to make accounts, LI to log in to an account, and PT to purchase tickets.");
+            }
+
+            switch (df.toUpperCase()) {
+                case "MA":
+                demoFlag = true;
+                makeAccount();
+                break;
+                case "LI":
+                demoFlag = true;
+                //login();
+                break;
+                case "PT":
+                demoFlag = true;
+                //purchase Tickets
+                break;
+                default:
+                System.out.println("Invalid Input. Please type in MA to make accounts, LI to log in to an account, and PT to purchase tickets.");
+            }
+
+        }
+
+        
     }
 
     public static void makeAccount() throws IOException {
